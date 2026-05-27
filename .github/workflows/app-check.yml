@@ -13,8 +13,11 @@ jobs:
 
       - run: npm install --legacy-peer-deps
 
+      - name: Migrate ESLint config
+        run: npx @eslint/migrate-config .eslintrc.json --yes
+
       - name: Run linter
-        run: npx @eslint/eslintrc@latest npx eslint .
+        run: make lint
 
       - name: run tests
         run: npm test
