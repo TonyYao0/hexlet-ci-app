@@ -13,15 +13,20 @@ jobs:
         with:
           node-version: '20'
 
-      # Устанавливаем строгие версии из lock-файла автора (без обновлений до Strapi 5)
-      - run: npm ci
+      - run: npm ci --legacy-peer-deps
       
-      # Создаем плоский конфиг, который требует ESLint v10
       - name: Create fallback ESLint config
         run: echo "export default [];" > eslint.config.js
 
       - name: Run linter
         run: make lint
+
+
+      - name: Patch Strapi test helper
+        run: |
+          if [ -f tests/helpers/strapi.js ]; then
+            sed -i "s/await Strapi().load()/await strapi.load()/g" tests/helpers/strapi.js
+          fi
 
       - name: run tests
         run: npm test
