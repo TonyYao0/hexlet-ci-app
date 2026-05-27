@@ -13,9 +13,8 @@ jobs:
 
       - run: npm install --legacy-peer-deps
 
-      - run: npm run lint
-        env:
-          ESLINT_USE_FLAT_CONFIG: false
+      - name: Run linter
+        run: make lint
 
       - name: run tests
         run: npm test
