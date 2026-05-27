@@ -13,14 +13,15 @@ jobs:
         with:
           node-version: '20'
 
-      - run: npm install --legacy-peer-deps
-
+      # Устанавливаем строгие версии из lock-файла автора (без обновлений до Strapi 5)
+      - run: npm ci
+      
+      # Создаем плоский конфиг, который требует ESLint v10
       - name: Create fallback ESLint config
         run: echo "export default [];" > eslint.config.js
 
       - name: Run linter
         run: make lint
-
 
       - name: run tests
         run: npm test
